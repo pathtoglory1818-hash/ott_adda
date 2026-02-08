@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTT ADDA | Future Commerce</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #050505;
+            --bg-panel: rgba(20, 20, 30, 0.7);
+            --neon-cyan: #00f3ff;
+            --neon-pink: #bd00ff;
+            --neon-green: #00ff9d;
+            --text-main: #ffffff;
+            --text-dim: #8892b0;
+            --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(189, 0, 255, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(0, 243, 255, 0.1) 0%, transparent 20%),
+                linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+            color: var(--text-main);
+            font-family: 'Rajdhani', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* --- HEADER --- */
+        header {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 1.5rem 5%;
+            display: flex; justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            border-bottom: var(--glass-border);
+            z-index: 1000;
+            background: rgba(5, 5, 5, 0.8);
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem; font-weight: 900;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px var(--neon-cyan);
+            cursor: pointer;
+        }
+
+        /* --- LAYOUT UTILS --- */
+        .container { padding: 7rem 5% 5rem; min-height: 100vh; }
+        .hidden { display: none !important; }
+        
+        /* --- HERO --- */
+        .hero { text-align: center; margin-bottom: 4rem; }
+        .hero h1 {
+            font-family: 'Orbitron', sans-serif; font-size: 4rem;
+            background: linear-gradient(90deg, #fff, var(--neon-cyan));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+        .hero p { color: var(--text-dim); font-size: 1.2rem; max-width: 600px; margin: 0 auto; }
+
+        /* --- GRID VIEW --- */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--bg-panel);
+            border: var(--glass-border);
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+            transition: 0.4s ease;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        .card:hover { transform: translateY(-5px); border-color: var(--neon-cyan); }
+        
+        .card-img {
+            height: 220px; 
+            background: rgba(0,0,0,0.3);
+            margin-bottom: 1.5rem; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .product-png {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+            filter: drop-shadow(0 0 8px var(--glow-color)); 
+        }
+
+        .card:hover .product-png {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 15px var(--glow-color));
+        }
+
+        .card h3 { font-family: 'Orbitron', sans-serif; margin-bottom: 0.5rem; }
+        .card p { color: var(--text-dim); margin-bottom: 1rem; }
+        .price { font-size: 1.5rem; font-weight: 700; color: var(--neon-cyan); }
+
+        /* --- DETAIL VIEW --- */
+        .detail-view {
+            display: flex; flex-wrap: wrap; gap: 4rem;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .detail-image {
+            flex: 1; min-width: 300px; height: 500px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--neon-cyan);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            position: relative;
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.1);
+        }
+        
+        .detail-png {
+            max-width: 80%;
+            max-height: 80%;
+            object-fit: contain;
+            animation: float 4s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px var(--glow-color));
+        }
+
+        .detail-content { flex: 1; min-width: 300px; }
+        
+        .back-btn {
+            background: transparent; border: none; color: var(--text-dim);
+            cursor: pointer; margin-bottom: 1rem; font-size: 1.1rem;
+            display: flex; align-items: center; gap: 5px;
+        }
+        .back-btn:hover { color: var(--neon-cyan); }
+
+        .detail-title { font-family: 'Orbitron', sans-serif; font-size: 3rem; margin-bottom: 0.5rem; text-transform: uppercase; }
+        .detail-price { font-size: 2.5rem; color: var(--neon-cyan); font-weight: 700; margin-bottom: 2rem; display: block; }
+        .detail-desc { font-size: 1.2rem; line-height: 1.6; color: var(--text-dim); margin-bottom: 3rem; border-left: 3px solid var(--neon-pink); padding-left: 1rem; }
+
+        .add-btn {
+            width: 100%; padding: 1.2rem; background: var(--neon-cyan); border: none;
+            font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 1.2rem;
+            color: #000; cursor: pointer;
+            clip-path: polygon(5% 0, 100% 0, 100% 70%, 95% 100%, 0 100%, 0 30%);
+            transition: 0.3s;
+        }
+        .add-btn:hover { background: #fff; box-shadow: 0 0 20px #fff; }
+
+        /* --- TOAST --- */
+        #toast {
+            visibility: hidden; min-width: 250px; background-color: rgba(0, 0, 0, 0.9);
+            border: 1px solid var(--neon-cyan); color: #fff; text-align: center;
+            border-radius: 4px; padding: 16px; position: fixed; z-index: 1001;
+            left: 50%; bottom: 30px; transform: translateX(-50%);
+            font-family: 'Orbitron', sans-serif; box-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
+        }
+        #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
+
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0px); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+        @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo" onclick="goHome()">OTT<span style="color:var(--neon-pink)">ADDA</span></div>
+    </header>
+
+    <div class="container">
+        
+        <div id="home-view">
+            <section class="hero">
+                <h1>UPGRADE YOUR OTT EXPIRIENCE</h1>
+                <p>✅Select a module below to view technical specifications.✅</p>
+            </section>
+            <section class="grid-container" id="product-grid"></section>
+        </div>
+
+        <div id="detail-view" class="detail-view hidden">
+            <div class="detail-image" id="detail-image-container"></div>
+            <div class="detail-content">
+                <button class="back-btn" onclick="goHome()">← RETURN TO MAIN</button>
+                <h1 id="detail-title" class="detail-title">PRODUCT NAME</h1>
+                <span id="detail-price" class="detail-price">Ξ 0.0</span>
+                <p id="detail-desc" class="detail-desc">Description goes here...</p>
+
+                <button class="add-btn" onclick="directBuy()">INITIALIZE PURCHASE</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="toast">CONNECTING TO SECURE SERVER...</div>
+
+    <script>
+        // ============================================
+        //  👇 ENTER YOUR TELEGRAM USERNAME BELOW 👇
+        // ============================================
+        const telegramUsername = "OTT_adda_g"; 
+        // ============================================
+
+        const products = [
+            {
+                id: 1,
+                name: "Amazonprime",
+                price: "₹ 59",
+                image: "amazonprime.png", 
+                short: "Direct brain-to-cloud interface.",
+                desc: "📱𝗔𝗠𝗔𝗭𝗢𝗡 𝗣𝗥𝗜𝗠𝗘 𝟏 𝗠𝗢𝗡𝗧𝗛𝗦 𝗦𝗨𝗕𝗦𝗖𝗥𝗜𝗣𝗧𝗜𝗢𝗡✉️𝗢𝗡 𝗬𝗢𝗨𝗥 𝗠𝗔𝗜𝗟 𝗔𝗖𝗧𝗜𝗩𝗔𝗧𝗜𝗢𝗡✉️🎁𝗕𝗘𝗡𝗘𝗙𝗜𝗧𝗦 - ✅𝗙𝗨𝗟𝗟 𝗣𝗥𝗜𝗩𝗔𝗧𝗘 𝗔𝗖𝗖𝗢𝗨𝗡𝗧✅𝟰𝗸 𝗨𝗛𝗗 𝗣𝗟𝗔𝗡 ✅𝟏 𝗠𝗢𝗡𝗧𝗛𝗦 𝗔𝗡𝗧𝗜 𝗕𝗔𝗡 𝗔𝗖𝗖𝗢𝗨𝗡𝗧𝗦✅𝗢𝗡 𝗬𝗢𝗨𝗥 𝗠𝗔𝗜𝗟 ✅𝗖𝗔𝗡 𝗪𝗔𝗧𝗖𝗛 𝗢𝗡 𝟱 𝗗𝗘𝗩𝗜𝗖𝗘𝗦",
+                color: "#00f3ff"
+            },
+            {
+                id: 2,
+                name: "Canva",
+                price: "₹ DM",
+                image: "Canva.png",
+                short: "Military grade portable terminal.",
+                desc: "❤️𝗖𝗔𝗡𝗩𝗔 𝗣𝗥𝗢 𝗦𝗨𝗕𝗦𝗖𝗥𝗜𝗣𝗧𝗜𝗢𝗡 ❤️✉️𝗢𝗡 𝗬𝗢𝗨𝗥 𝗠𝗔𝗜𝗟✉️⭐️𝟭 𝗠𝗢𝗡𝗧𝗛⭐️𝟮 𝗠𝗢𝗡𝗧𝗛𝗦⭐️𝟯 𝗠𝗢𝗡𝗧𝗛𝗦⭐️𝟲 𝗠𝗢𝗡𝗧𝗛𝗦⭐️𝟭𝟮 𝗠𝗢𝗡𝗧𝗛𝗦🎁𝗕𝗘𝗡𝗘𝗙𝗜𝗧𝗦 - ✅𝗨𝗡𝗟𝗜𝗠𝗜𝗧𝗘𝗗 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 𝗖𝗢𝗡𝗧𝗘𝗡𝗧✅𝗕𝗔𝗖𝗞𝗚𝗥𝗢𝗨𝗡𝗗 𝗥𝗘𝗠𝗢𝗩𝗘𝗥✅𝗕𝗥𝗔𝗡𝗗 𝗞𝗜𝗧✅𝗠𝗔𝗚𝗜𝗖 𝗥𝗘𝗦𝗜𝗭𝗘",
+                color: "#bd00ff"
+            },
+            {
+                id: 3,
+                name: "Crunchyroll",
+                price: "₹ 49",
+                image: "Crunchyroll.png",
+                short: "AR Contact lenses with thermal overlay.",
+                desc: "⚒𝗖𝗥𝗨𝗡𝗖𝗛𝗬𝗥𝗢𝗟𝗟 9 MONTH 𝐒𝐔𝐁𝐒𝐂𝐑𝐈𝐏𝐓𝐈𝐎𝐍⚒️⭐CRUNCHYROLL AT LOW PRICE⭐🛡3 𝗠𝗢𝗡𝗧𝗛𝗦 𝗪𝗔𝗥𝗥𝗔𝗡𝗧𝗬🛡🚨𝗦𝗜𝗡𝗚𝗟𝗘 𝗗𝗘𝗩𝗜𝗖𝗘 𝗟𝗢𝗚𝗜𝗡🚨",
+                color: "#00ff9d"
+            },
+            {
+                id: 4,
+                name: "Hoichoi",
+                price: "₹ 69",
+                image: "Hoichoi.png",
+                short: "Mag-lev propulsion footwear.",
+                desc: "🥹 𝗛𝗢𝗜𝗖𝗛𝗢𝗜 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 🥹👑5 𝗦𝗖𝗥𝗘𝗘𝗡👑👑5 𝗗𝗘𝗩𝗜𝗖𝗘👑❤️𝗢𝗡 𝗬𝗢𝗨𝗥 𝗡𝗨𝗠𝗕𝗘𝗥❤️⭐️𝟭 𝗠𝗢𝗡𝗧𝗛",
+                color: "#ff0055"
+            },
+            {
+                id: 5,
+                name: "Hotstar",
+                price: "₹ DM",
+                image: "hotstar.png", 
+                short: "Direct brain-to-cloud interface.",
+                desc: "📱𝗝𝗜𝗢𝗛𝗢𝗧𝗦𝗧𝗔𝗥 ❤️𝗢𝗡 𝗬𝗢𝗨𝗥 𝗡𝗨𝗠𝗕𝗘𝗥 ❤️✅𝟭 𝗠𝗢𝗡𝗧𝗛✅𝟯 𝗠𝗢𝗡𝗧𝗛𝗦✅𝟲 𝗠𝗢𝗡𝗧𝗛𝗦",
+                color: "#00f3ff"
+            }
+        ];
+
+        // --- INIT ---
+        const grid = document.getElementById('product-grid');
+        const homeView = document.getElementById('home-view');
+        const detailView = document.getElementById('detail-view');
+
+        // Render Grid
+        products.forEach(p => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.style.setProperty('--glow-color', p.color);
+            card.onclick = () => showDetail(p.id);
+            card.innerHTML = `
+                <div class="card-img">
+                    <img src="${p.image}" class="product-png" alt="${p.name}" onerror="this.style.display='none';this.parentElement.innerHTML='<div style=\\'color:white\\'>IMG NOT FOUND</div>'">
+                </div>
+                <h3>${p.name}</h3>
+                <p>${p.short}</p>
+                <div class="price" style="color: ${p.color}">${p.price}</div>
+            `;
+            grid.appendChild(card);
+        });
+
+        // --- NAVIGATION ---
+        function showDetail(id) {
+            const product = products.find(p => p.id === id);
+            
+            document.getElementById('detail-title').innerText = product.name;
+            document.getElementById('detail-price').innerText = product.price;
+            document.getElementById('detail-price').style.color = product.color;
+            document.getElementById('detail-desc').innerText = product.desc;
+            
+            const imgContainer = document.getElementById('detail-image-container');
+            imgContainer.style.borderColor = product.color;
+            imgContainer.style.setProperty('--glow-color', product.color);
+            imgContainer.innerHTML = `<img src="${product.image}" class="detail-png" alt="${product.name}">`;
+
+            // Stats Animation Loop REMOVED
+
+            homeView.classList.add('hidden');
+            detailView.classList.remove('hidden');
+            window.scrollTo(0,0);
+        }
+
+        function goHome() {
+            detailView.classList.add('hidden');
+            homeView.classList.remove('hidden');
+        }
+
+        // --- TELEGRAM BUY FUNCTION ---
+        function directBuy() {
+            // 1. Get the current product name
+            const productName = document.getElementById('detail-title').innerText;
+            
+            // 2. Show the "Connecting" toast
+            const toast = document.getElementById("toast");
+            toast.className = "show";
+            
+            // 3. Construct the Message
+            const message = `Hello, I am interested in buying: ${productName}`;
+            const encodedMessage = encodeURIComponent(message);
+            
+            // 4. Open Telegram after a short delay (for effect)
+            setTimeout(() => {
+                toast.className = toast.className.replace("show", "");
+                const url = `https://t.me/${telegramUsername}?text=${encodedMessage}`;
+                window.open(url, '_blank');
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
